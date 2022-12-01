@@ -1,0 +1,27 @@
+//Suma de la 0 la 5 (fără 5)
+.data
+	n: .long 5
+.text
+.globl main
+
+main:
+	mov $0, %eax 
+	// %eax pentru suma 
+
+	mov $0, %ecx 
+	// %ecx pentru "i"-ul curent din "for"
+
+et_for:
+	cmp %ecx, n
+	je et_exit
+
+	add %ecx, %eax
+	// %eax := %eax + %ecx <=> %eax += %ecx 
+
+	add $1, %ecx    //sau inc %ecx 
+	jmp et_for
+
+et_exit:
+	mov $1, %eax 
+	mov $0, %ebx 
+	int $0x80

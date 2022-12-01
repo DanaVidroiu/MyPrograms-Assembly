@@ -1,0 +1,18 @@
+//Se dau doua numere naturale x si y. Sa se scrie un program in asamblare care sa realizeze interschimbarea lor. 
+.data
+	x:   .long 16
+	y:   .long 3
+.text
+.globl main
+
+main:
+	mov x, %eax 
+	mov y, %ebx 
+	mov %eax, %ecx 
+	mov %ebx, %eax 
+	mov %ecx, %ebx 
+
+et_exit:
+	mov $0, %eax
+	mov $1, %ebx 
+	int $0x80

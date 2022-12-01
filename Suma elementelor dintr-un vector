@@ -1,0 +1,28 @@
+//Suma elementelor dintr-un vector
+.data
+	v: .long 10, 15, 30
+	n: .long 3
+.text
+.globl main
+main:
+	lea v, %edi
+	//%edi retine adresa de inceput a array-ului 
+	mov $0, %eax 
+	mov $0, %ecx
+et_for:
+	cmp %ecx, n
+	je et_exit
+
+	mov (%edi, %ecx, 4), %ebx
+	add %ebx, %eax 
+
+	inc %ecx
+	jmp et_for
+
+et_exit:
+	mov $1, %eax
+	mov $0, %ebx
+	int $0x80
+
+//for(%ecx; %ecx < n; %ecx++)
+// { %eax += v[%ecx]; }

@@ -1,0 +1,82 @@
+.data
+	n: .space 4
+	cuv: .space 100
+	cit1: .asciz "citeste nr de litere:\n"
+	cit2: .asciz "citeste cuvantul:\n"
+	fs0: .asciz "Nr de vocale este: %d\n"
+	fs1: .asciz "%d"
+	fs2: .asciz "%s"
+	n1: .long 5
+	voc: .asciz "aeiou"
+	nr: .long 0
+	vocala: .space 1
+.text
+
+.globl main
+
+main:
+	mov $4, %eax
+	mov $1, %ebx
+	mov $cit1, %ecx
+	mov $22, %edx
+	int $0x80
+	
+	pushl $n
+	pushl $fs1
+	call scanf
+	popl %eax
+	popl %eax
+	
+	mov $4, %eax
+	mov $1, %ebx
+	mov $cit2, %ecx
+	mov $17, %edx
+	int $0x80
+	
+	pushl $cuv
+	pushl $fs2
+	call scanf
+	popl %eax
+	popl %eax
+	
+	mov $0, %ecx
+	lea voc, %esi
+	lea cuv, %edi
+	
+etloop:
+	cmp %ecx, n1
+	je etafis
+	
+	mov (%esi, %ecx, 1), %dl
+	mov %dl, vocala
+	mov $0, %ebx
+	inc %ecx
+	
+etloop2:
+	cmp %ebx, n   # %ebx e pt cuvant
+	je etloop
+		
+	mov (%edi, %ebx, 1), %al
+	cmp %al, vocala
+	je eteq
+	inc %ebx
+	jmp etloop2
+	
+eteq:
+	mov nr, %edx
+	inc %edx
+	mov %edx, nr
+	inc %ebx
+	jmp etloop2	
+
+etafis:
+	pushl nr
+	pushl $fs0
+	call printf
+	popl %eax
+	popl %eax
+	
+etexit:
+	mov $1, %eax
+	xor %ebx, %ebx
+	int $0x80

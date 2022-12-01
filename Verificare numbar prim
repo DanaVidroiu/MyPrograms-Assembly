@@ -1,0 +1,48 @@
+//Sa se verifice daca un numar dat este prim
+.data
+	x: .long 8
+	str1: .asciz "Este numar prim\n"
+	str2: .asciz "Nu este numar prim\n"
+.text
+.globl main
+
+main:
+	mov $1, %ecx
+	mov x, %eax
+	mov $0, %ebx
+
+et_et:
+	mov x, %eax
+	mov $0, %edx
+	cmp %eax, %ecx
+	jb et_loop
+	jmp nr_prim
+
+et_loop: 
+	add $1, %ecx
+	cmp %eax, %ecx
+	je nr_prim
+	div %ecx
+	cmp %edx, %ebx
+	jne et_et 
+	jmp nu_nr_prim
+
+nr_prim:
+	mov $4, %eax
+	mov $1, %ebx
+	mov $str1, %ecx
+	mov $17, %edx 
+	int $0x80
+	jmp et_exit
+
+nu_nr_prim:
+	mov $4, %eax
+	mov $1, %ebx
+	mov $str2, %ecx
+	mov $20, %edx 
+	int $0x80
+
+et_exit:
+	mov $0, %eax
+	mov $1, %ebx 
+	int $0x80

@@ -1,0 +1,47 @@
+//Sa se determine maximul si numarul de aparitii al acestuia intr-un array
+.data
+	v:     .long 10, 15, 15, 2, 42, 34, 42, 28, 42
+	n:     .long 9
+	max:   .space 4 
+	nrmax: .space 4 
+
+.text
+
+.globl main 
+
+main:
+	lea v, %edi
+	mov $0, %eax
+	mov $0, %ecx 
+	mov $0, %edx
+
+et_for:
+	cmp %ecx, n
+	je et_exit
+
+	cmp (%edi, %ecx, 4), %eax
+	jl et_max
+
+	cmp (%edi, %ecx, 4), %eax 
+	je et_max_equal
+ 
+	inc %ecx
+	jmp et_for
+
+et_max:
+	mov (%edi, %ecx, 4), %eax
+	inc %ecx
+	mov $1, %edx
+	jmp et_for
+
+et_max_equal:
+	add $1, %edx
+	inc %ecx
+	jmp et_for
+
+et_exit:
+	mov %eax, max
+	mov %edx, nrmax
+	mov $0, %eax
+	mov $1, %ebx 
+	int $0x80

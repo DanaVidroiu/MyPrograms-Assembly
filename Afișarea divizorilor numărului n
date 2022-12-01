@@ -1,0 +1,51 @@
+//Se da un număr a de la tastatura. Sa se afișeze toți divizorii acestuia pe ecran
+.data
+	a:            .space 4
+	formatRead:   .asciz "%d"
+	formatPrint:  .asciz " %d\n"
+
+.text
+
+.globl main 
+
+main: 
+	pushl $a
+	pushl $formatRead
+	call scanf
+	popl %ecx
+	popl %ecx
+
+	movl $0, %ebx
+
+et_div:
+	movl a, %eax
+  	inc %ebx
+
+	cmp %eax, %ebx
+	jg et_exit
+
+	mov $0, %edx
+	div %ebx
+
+	cmp $0, %edx
+	je et_loop
+
+	jmp et_div
+
+et_loop:
+	pushl %ebx 
+	pushl $formatPrint
+	call printf
+	pop %ecx
+	pop %ecx 
+
+	pushl $0
+	call fflush
+	popl %ecx    
+	
+	jmp et_div
+
+et_exit:
+	mov $1, %eax
+	mov $0, %ebx
+	int $0x80

@@ -1,0 +1,27 @@
+//Fie x, y doua numere natruale salvate in memorie. Sa se scrie un program care calculeaza (x/16) + (y × 16).
+.data
+	x:   .long 16
+	y:   .long 3
+	rez: .space 4
+.text
+.globl main
+
+main:
+	mov x, %eax
+	mov $16, %ebx 
+	div %ebx
+	
+	add %eax, %ecx
+
+	mov y, %eax  
+	mul %ebx
+	
+	add %eax, %ecx
+
+	mov %ecx, rez
+	
+
+et_exit:
+	mov $0, %eax
+	mov $1, %ebx 
+	int $0x80
